@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
-import type { Profile } from "../../src/core/types.js";
+import type { Profile } from "../../src/core/types";
 
 export function ProfileForm({ profile }: { profile: Profile }) {
   const [status, setStatus] = useState("");

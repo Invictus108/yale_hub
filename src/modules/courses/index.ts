@@ -1,6 +1,6 @@
-import type { FeatureModule } from "../../core/types.js";
+import type { FeatureModule } from "../../core/types";
 
-import { courseTools } from "./tools.js";
+import { courseTools } from "./tools";
 
 /** Aiden owns this module (courses and Yalies). */
 export const coursesModule: FeatureModule = {

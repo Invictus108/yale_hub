@@ -1,8 +1,8 @@
 import { appendFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-import type { Episode } from "../types.js";
-import { assertNetId } from "./profile.js";
+import type { Episode } from "../types";
+import { assertNetId } from "./profile";
 
 function fileFor(netId: string): string {
   return path.resolve(process.cwd(), "data", "episodes", `${netId}.jsonl`);

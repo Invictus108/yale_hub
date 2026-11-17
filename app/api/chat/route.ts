@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../lib/session.js";
-import { answerQuestion } from "../../../src/core/agent.js";
+import { currentNetId } from "../../lib/session";
+import { answerQuestion } from "../../../src/core/agent";
 
 export async function POST(request: Request) {
   const netId = await currentNetId();

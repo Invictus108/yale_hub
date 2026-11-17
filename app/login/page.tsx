@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { casMode, loginRedirectFor } from "../../src/core/auth.js";
+import { casMode, loginRedirectFor } from "../../src/core/auth";
 
 export default async function LoginPage() {
   if (casMode() === "yale") {

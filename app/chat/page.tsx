@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { ChatForm } from "./chat-form.js";
+import { currentNetId } from "../lib/session";
+import { ChatForm } from "./chat-form";
 
 export default async function ChatPage() {
   const netId = await currentNetId();

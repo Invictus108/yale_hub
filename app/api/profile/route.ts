@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../lib/session.js";
-import { loadOrCreateProfile, patchProfile } from "../../../src/core/memory/profile.js";
+import { currentNetId } from "../../lib/session";
+import { loadOrCreateProfile, patchProfile } from "../../../src/core/memory/profile";
 
 export async function GET() {
   const netId = await currentNetId();
@@ -19,13 +19,25 @@ export async function POST(request: Request) {
     major?: unknown;
     pronouns?: unknown;
   };
-  const classYear = body.classYear === "" || body.classYear == null ? null : Number(body.classYear);
   const profile = await patchProfile(netId, {
     displayName: typeof body.displayName === "string" ? body.displayName : undefined,
-    college: typeof body.college === "string" ? body.college || null : undefined,
-    classYear: classYear != null && Number.isFinite(classYear) ? classYear : null,
-    major: typeof body.major === "string" ? body.major || null : undefined,
-    pronouns: typeof body.pronouns === "string" ? body.pronouns || null : undefined,
+    college: optionalText(body.college),
+    classYear: optionalYear(body.classYear),
+    major: optionalText(body.major),
+    pronouns: optionalText(body.pronouns),
   });
   return NextResponse.json(profile);
+}
+
+/** Empty string clears the field. A missing field leaves the stored value. */
+function optionalText(value: unknown): string | null | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+}
+
+function optionalYear(value: unknown): number | null | undefined {
+  if (value == null || value === "") return value === undefined ? undefined : null;
+  const year = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(year) ? year : null;
 }

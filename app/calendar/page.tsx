@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { calendarAutoUpdateStatus } from "../../src/modules/calendar/auto-update.js";
-import { SyncButton } from "./sync-button.js";
+import { currentNetId } from "../lib/session";
+import { calendarAutoUpdateStatus } from "../../src/modules/calendar/auto-update";
+import { SyncButton } from "./sync-button";
 
 /** Jack owns this page and the auto-update logic it calls. */
 export default async function CalendarPage() {

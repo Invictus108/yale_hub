@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import type { PreferenceNamespace, Profile, ProfilePreferences } from "../types.js";
+import type { PreferenceNamespace, Profile, ProfilePreferences } from "../types";
 
 const NAMESPACES: PreferenceNamespace[] = ["dining", "calendar", "courses", "briefs"];
 

@@ -1,7 +1,7 @@
 import * as z from "zod/v4";
 
-import { textResult, type Tool } from "../../core/types.js";
-import { sendMorningEmail } from "./email.js";
+import { textResult, type Tool } from "../../core/types";
+import { sendMorningEmail } from "./email";
 
 /** Aiden owns this file. Email and other brief sources are collected here. */
 export const briefTools: Tool[] = [

@@ -1,5 +1,5 @@
-import { searchYaleKnowledge } from "../../integrations/vector-db.js";
-import type { RetrievedChunk } from "../types.js";
+import { searchYaleKnowledge } from "../../integrations/vector-db";
+import type { RetrievedChunk } from "../types";
 
 export interface RetrievalResult {
   chunks: RetrievedChunk[];

@@ -1,6 +1,6 @@
 import * as z from "zod/v4";
 
-import { textResult, type Tool } from "../../core/types.js";
+import { textResult, type Tool } from "../../core/types";
 
 /** Aiden owns this file. Courses and Yalies both live here. */
 export const courseTools: Tool[] = [

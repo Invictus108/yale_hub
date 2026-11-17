@@ -1,6 +1,6 @@
 import * as z from "zod/v4";
 
-import { textResult, type Tool } from "../../core/types.js";
+import { textResult, type Tool } from "../../core/types";
 
 /** Aiden owns this file. Call integrations/nutrislice.ts from the handler. */
 export const diningTools: Tool[] = [

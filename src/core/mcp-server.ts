@@ -2,14 +2,14 @@ import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
 import { McpServer, type CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
-import { resolveToolContext, runWithToolContext } from "./context.js";
-import { loadOrCreateProfile } from "./memory/profile.js";
-import { memoryTools } from "./memory/tools.js";
-import { briefsModule, renderMorningBrief } from "../modules/briefs/index.js";
-import { calendarModule } from "../modules/calendar/index.js";
-import { coursesModule } from "../modules/courses/index.js";
-import { diningModule } from "../modules/dining/index.js";
-import { textResult, type BriefSectionOutput, type FeatureModule, type Tool, type ToolContext } from "./types.js";
+import { resolveToolContext, runWithToolContext } from "./context";
+import { loadOrCreateProfile } from "./memory/profile";
+import { memoryTools } from "./memory/tools";
+import { briefsModule, renderMorningBrief } from "../modules/briefs/index";
+import { calendarModule } from "../modules/calendar/index";
+import { coursesModule } from "../modules/courses/index";
+import { diningModule } from "../modules/dining/index";
+import { textResult, type BriefSectionOutput, type FeatureModule, type Tool, type ToolContext } from "./types";
 
 /**
  * Every feature module is registered here and nowhere else.

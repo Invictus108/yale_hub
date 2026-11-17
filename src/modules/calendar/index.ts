@@ -1,6 +1,6 @@
-import type { FeatureModule } from "../../core/types.js";
+import type { FeatureModule } from "../../core/types";
 
-import { calendarTools } from "./tools.js";
+import { calendarTools } from "./tools";
 
 /** Jack owns this module. */
 export const calendarModule: FeatureModule = {

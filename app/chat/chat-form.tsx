@@ -14,8 +14,28 @@ export function ChatForm() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ message }),
     });
-    const body = (await response.json()) as { error?: string; text?: string };
-    setOutput(body.error ?? body.text ?? "No reply.");
+    const body = (await response.json()) as {
+      error?: string;
+      text?: string;
+      retrievalWarning?: string;
+      retrieved?: Array<{ score: number; excerpt: string }>;
+    };
+    if (body.error) {
+      setOutput(body.error);
+      return;
+    }
+    const sources = (body.retrieved ?? [])
+      .map((chunk, index) => `(${index + 1}) ${chunk.score.toFixed(3)}\n${chunk.excerpt}`)
+      .join("\n\n");
+    setOutput(
+      [
+        body.text ?? "No reply.",
+        body.retrievalWarning ? `Retrieval warning: ${body.retrievalWarning}` : "",
+        sources ? `Yale chunks loaded before the reply:\n${sources}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n\n"),
+    );
   }
 
   return (

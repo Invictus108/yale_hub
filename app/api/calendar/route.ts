@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../lib/session.js";
-import { calendarAutoUpdateStatus, runCalendarAutoUpdate } from "../../../src/modules/calendar/auto-update.js";
+import { currentNetId } from "../../lib/session";
+import { calendarAutoUpdateStatus, runCalendarAutoUpdate } from "../../../src/modules/calendar/auto-update";
 
 export async function GET() {
   const netId = await currentNetId();

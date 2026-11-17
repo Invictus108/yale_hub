@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../../lib/session.js";
-import { morningBriefFor } from "../../../../src/core/mcp-server.js";
-import { loadOrCreateProfile } from "../../../../src/core/memory/profile.js";
-import { sendMorningEmail } from "../../../../src/modules/briefs/email.js";
+import { currentNetId } from "../../../lib/session";
+import { morningBriefFor } from "../../../../src/core/mcp-server";
+import { loadOrCreateProfile } from "../../../../src/core/memory/profile";
+import { sendMorningEmail } from "../../../../src/modules/briefs/email";
 
 export async function POST() {
   const netId = await currentNetId();

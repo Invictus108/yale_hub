@@ -1,11 +1,11 @@
 import type { Client } from "@modelcontextprotocol/client";
 
-import { runWithToolContext } from "./context.js";
-import { recordEpisode, recentEpisodes } from "./memory/episodic.js";
-import { loadOrCreateProfile } from "./memory/profile.js";
-import { retrieveYaleKnowledge } from "./memory/retrieval.js";
-import { getAgentClient } from "./mcp-server.js";
-import type { Episode, Profile, RetrievedChunk } from "./types.js";
+import { runWithToolContext } from "./context";
+import { recordEpisode, recentEpisodes } from "./memory/episodic";
+import { loadOrCreateProfile } from "./memory/profile";
+import { retrieveYaleKnowledge } from "./memory/retrieval";
+import { getAgentClient } from "./mcp-server";
+import type { Episode, Profile, RetrievedChunk } from "./types";
 
 const MODEL = "grok-4.7";
 const RESPONSES_URL = "https://api.x.ai/v1/responses";

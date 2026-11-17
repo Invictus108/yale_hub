@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { currentNetId } from "./lib/session.js";
+import { currentNetId } from "./lib/session";
 import "./globals.css";
 
 /** Aiden owns the dashboard shell. Pages under app/calendar belong to Jack. */

@@ -1,7 +1,7 @@
 import * as z from "zod/v4";
 
-import { textResult, type Tool } from "../../core/types.js";
-import { runCalendarAutoUpdate } from "./auto-update.js";
+import { textResult, type Tool } from "../../core/types";
+import { runCalendarAutoUpdate } from "./auto-update";
 
 /**
  * Jack owns this file. Replace each handler with a call into integrations/gcal.ts.
