@@ -1,0 +1,70 @@
+:root {
+  color: #1a1a1a;
+  background: #f4f1ea;
+  font-family: Georgia, serif;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #00356b;
+}
+
+.shell {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  border-bottom: 4px solid #00356b;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav .who {
+  margin-left: auto;
+}
+
+main.card {
+  background: white;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+label {
+  display: block;
+  margin: 0.6rem 0;
+}
+
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 0.4rem;
+}
+
+button {
+  background: #00356b;
+  color: white;
+  border: 0;
+  padding: 0.45rem 0.8rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+pre {
+  white-space: pre-wrap;
+  background: #f7f5f0;
+  padding: 1rem;
+}
