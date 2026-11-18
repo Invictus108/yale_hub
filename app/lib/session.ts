@@ -1,6 +1,6 @@
 import { cookies, headers } from "next/headers";
 
-import { identifyToken, SESSION_COOKIE } from "../../src/core/auth.js";
+import { identifyToken, SESSION_COOKIE } from "../../src/core/auth";
 
 export async function currentNetId(): Promise<string | null> {
   const jar = await cookies();

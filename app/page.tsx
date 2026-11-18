@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { currentNetId } from "./lib/session.js";
-import { featureModules } from "../src/core/mcp-server.js";
+import { currentNetId } from "./lib/session";
+import { featureModules } from "../src/core/mcp-server";
 
 /** Aiden owns this overview. New modules appear here once they are registered. */
 export default async function OverviewPage() {

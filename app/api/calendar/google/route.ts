@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../../lib/session.js";
-import { sameOrigin } from "../../../../src/core/auth.js";
-import { googleAuthUrl } from "../../../../src/integrations/gcal.js";
+import { currentNetId } from "../../../lib/session";
+import { sameOrigin } from "../../../../src/core/auth";
+import { googleAuthUrl } from "../../../../src/integrations/gcal";
 
 export async function GET(request: Request) {
   const netId = await currentNetId();

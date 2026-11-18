@@ -7,7 +7,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { syncGoogleCalendar } from "../../integrations/gcal.js";
+import { syncGoogleCalendar } from "../../integrations/gcal";
 
 export interface CalendarAutoUpdateStatus {
   lastRunAt: string | null;

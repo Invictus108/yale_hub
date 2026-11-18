@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { endSession, sameOrigin, SESSION_COOKIE } from "../../../../src/core/auth.js";
+import { endSession, sameOrigin, SESSION_COOKIE } from "../../../../src/core/auth";
 
 export async function GET(request: Request) {
   const jar = await cookies();

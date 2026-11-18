@@ -6,8 +6,8 @@ import {
   mealForNow,
   newYorkToday,
   preferredHall,
-} from "../../integrations/nutrislice.js";
-import { textResult, type Tool } from "../../core/types.js";
+} from "../../integrations/nutrislice";
+import { textResult, type Tool } from "../../core/types";
 
 /** Aiden owns this file. The handler calls integrations/nutrislice.ts. */
 export const diningTools: Tool[] = [

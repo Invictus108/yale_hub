@@ -1,7 +1,7 @@
-import { dayRange, formatEventLine, listEvents, newYorkToday } from "../../integrations/gcal.js";
-import type { FeatureModule } from "../../core/types.js";
+import { dayRange, formatEventLine, listEvents, newYorkToday } from "../../integrations/gcal";
+import type { FeatureModule } from "../../core/types";
 
-import { calendarTools } from "./tools.js";
+import { calendarTools } from "./tools";
 
 /** Jack owns this module. */
 export const calendarModule: FeatureModule = {

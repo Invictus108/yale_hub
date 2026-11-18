@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { formatEventLine, googleConnection, listEvents, upcomingRange } from "../../src/integrations/gcal.js";
-import { calendarAutoUpdateStatus } from "../../src/modules/calendar/auto-update.js";
-import { DeleteEventButton, EventForm } from "./event-form.js";
-import { SyncButton } from "./sync-button.js";
+import { currentNetId } from "../lib/session";
+import { formatEventLine, googleConnection, listEvents, upcomingRange } from "../../src/integrations/gcal";
+import { calendarAutoUpdateStatus } from "../../src/modules/calendar/auto-update";
+import { DeleteEventButton, EventForm } from "./event-form";
+import { SyncButton } from "./sync-button";
 
 /** Jack owns this page and the auto-update logic it calls. */
 export default async function CalendarPage({

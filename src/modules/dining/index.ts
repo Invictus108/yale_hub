@@ -1,7 +1,7 @@
-import { getDiningMenu, mealForNow, newYorkToday, preferredHall } from "../../integrations/nutrislice.js";
-import type { FeatureModule } from "../../core/types.js";
+import { getDiningMenu, mealForNow, newYorkToday, preferredHall } from "../../integrations/nutrislice";
+import type { FeatureModule } from "../../core/types";
 
-import { diningTools } from "./tools.js";
+import { diningTools } from "./tools";
 
 /** Aiden owns this module. */
 export const diningModule: FeatureModule = {

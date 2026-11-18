@@ -1,7 +1,7 @@
-import type { BriefSectionOutput, FeatureModule } from "../../core/types.js";
+import type { BriefSectionOutput, FeatureModule } from "../../core/types";
 
-import { describeBriefDelivery } from "./email.js";
-import { briefTools } from "./tools.js";
+import { describeBriefDelivery } from "./email";
+import { briefTools } from "./tools";
 
 /**
  * Aiden owns the brief layout. Core passes in every module's section.

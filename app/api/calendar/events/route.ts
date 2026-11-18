@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../../lib/session.js";
-import { createEvent, deleteEvent } from "../../../../src/integrations/gcal.js";
+import { currentNetId } from "../../../lib/session";
+import { createEvent, deleteEvent } from "../../../../src/integrations/gcal";
 
 export async function POST(request: Request) {
   const netId = await currentNetId();

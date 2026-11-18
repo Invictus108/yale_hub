@@ -8,9 +8,9 @@ import {
   listEvents,
   newYorkToday,
   updateEvent,
-} from "../../integrations/gcal.js";
-import { textResult, type Tool } from "../../core/types.js";
-import { runCalendarAutoUpdate } from "./auto-update.js";
+} from "../../integrations/gcal";
+import { textResult, type Tool } from "../../core/types";
+import { runCalendarAutoUpdate } from "./auto-update";
 
 function failure(err: unknown): ReturnType<typeof textResult> {
   return textResult(err instanceof Error ? err.message : String(err), true);

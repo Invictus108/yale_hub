@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { loadOrCreateProfile } from "../../src/core/memory/profile.js";
+import { currentNetId } from "../lib/session";
+import { loadOrCreateProfile } from "../../src/core/memory/profile";
 import {
   DINING_HALLS,
   formatDiningMenu,
@@ -10,7 +10,7 @@ import {
   newYorkToday,
   preferredHall,
   type DiningMenu,
-} from "../../src/integrations/nutrislice.js";
+} from "../../src/integrations/nutrislice";
 
 /** Aiden owns this page. */
 export default async function DiningPage({

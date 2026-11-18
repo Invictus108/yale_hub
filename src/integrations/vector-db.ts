@@ -2,7 +2,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import type { RetrievedChunk } from "../core/types.js";
+import type { RetrievedChunk } from "../core/types";
 
 const scriptPath = path.join(path.dirname(fileURLToPath(import.meta.url)), "vector_bridge.py");
 

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../lib/session.js";
-import { loadOrCreateProfile } from "../../../src/core/memory/profile.js";
-import { getDiningMenu, mealForNow, newYorkToday, preferredHall, type DiningMenu } from "../../../src/integrations/nutrislice.js";
+import { currentNetId } from "../../lib/session";
+import { loadOrCreateProfile } from "../../../src/core/memory/profile";
+import { getDiningMenu, mealForNow, newYorkToday, preferredHall, type DiningMenu } from "../../../src/integrations/nutrislice";
 
 export async function GET(request: Request) {
   const netId = await currentNetId();

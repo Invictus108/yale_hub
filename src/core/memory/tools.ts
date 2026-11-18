@@ -1,10 +1,10 @@
 import * as z from "zod/v4";
 
-import type { PreferenceNamespace, Tool } from "../types.js";
-import { textResult } from "../types.js";
-import { recentEpisodes, recordEpisode } from "./episodic.js";
-import { patchProfile } from "./profile.js";
-import { retrieveYaleKnowledge } from "./retrieval.js";
+import type { PreferenceNamespace, Tool } from "../types";
+import { textResult } from "../types";
+import { recentEpisodes, recordEpisode } from "./episodic";
+import { patchProfile } from "./profile";
+import { retrieveYaleKnowledge } from "./retrieval";
 
 const preferenceNamespaces = ["dining", "calendar", "courses", "briefs"] as const;
 

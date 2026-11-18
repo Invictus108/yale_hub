@@ -1,8 +1,8 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 
-import { loadOrCreateProfile } from "./memory/profile.js";
-import { assertNetId } from "./memory/profile.js";
-import type { ToolContext } from "./types.js";
+import { loadOrCreateProfile } from "./memory/profile";
+import { assertNetId } from "./memory/profile";
+import type { ToolContext } from "./types";
 
 const storage = new AsyncLocalStorage<ToolContext>();
 

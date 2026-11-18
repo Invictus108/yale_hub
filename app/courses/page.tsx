@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { formatYalies, lookupYalies } from "../../src/integrations/yalies.js";
-import { formatMeetings, formatSection, searchCourses, seasonLabel } from "../../src/modules/courses/catalog.js";
-import { listSavedCourses } from "../../src/modules/courses/worksheet.js";
-import { RemoveCourseButton, SaveCourseButton } from "./course-actions.js";
+import { currentNetId } from "../lib/session";
+import { formatYalies, lookupYalies } from "../../src/integrations/yalies";
+import { formatMeetings, formatSection, searchCourses, seasonLabel } from "../../src/modules/courses/catalog";
+import { listSavedCourses } from "../../src/modules/courses/worksheet";
+import { RemoveCourseButton, SaveCourseButton } from "./course-actions";
 
 /** Aiden owns this page. */
 export default async function CoursesPage({

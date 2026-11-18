@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { currentNetId } from "../../lib/session.js";
-import { searchCourses } from "../../../src/modules/courses/catalog.js";
-import { listSavedCourses, removeCourse, saveCourse } from "../../../src/modules/courses/worksheet.js";
+import { currentNetId } from "../../lib/session";
+import { searchCourses } from "../../../src/modules/courses/catalog";
+import { listSavedCourses, removeCourse, saveCourse } from "../../../src/modules/courses/worksheet";
 
 export async function GET(request: Request) {
   const netId = await currentNetId();

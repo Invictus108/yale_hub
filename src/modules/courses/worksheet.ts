@@ -5,7 +5,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { courseByCrn, currentSeasonCode, meetsToday, type CourseSection } from "./catalog.js";
+import { courseByCrn, currentSeasonCode, meetsToday, type CourseSection } from "./catalog";
 
 export interface SavedSection {
   seasonCode: string;

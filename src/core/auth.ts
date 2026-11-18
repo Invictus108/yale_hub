@@ -1,18 +1,18 @@
-import { randomBytes } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 
-import { assertNetId } from "./memory/profile.js";
+import { assertNetId } from "./memory/profile";
 
 const YALE_CAS_BASE = "https://secure.its.yale.edu/cas";
 export const SESSION_COOKIE = "yalehub";
 const WEEK = 60 * 60 * 24 * 7;
 
-interface Session {
-  netId: string;
+function sessionSecret(): string {
+  return process.env.SESSION_SECRET?.trim() || "yalehub-localhost";
 }
 
-const globalSessions = globalThis as typeof globalThis & { __yalehubSessions?: Map<string, Session> };
-const sessions = globalSessions.__yalehubSessions ?? new Map<string, Session>();
-globalSessions.__yalehubSessions = sessions;
+function signNetId(netId: string): string {
+  return createHmac("sha256", sessionSecret()).update(netId).digest("hex");
+}
 
 export function casMode(): "mock" | "yale" {
   return process.env.CAS_MODE?.trim().toLowerCase() === "yale" ? "yale" : "mock";
@@ -26,19 +26,33 @@ export function loginRedirectFor(host: string): string {
   return `${YALE_CAS_BASE}/login?service=${encodeURIComponent(serviceUrlFor(host))}`;
 }
 
+/** Signed cookie payload. Survives a server restart. Logout clears the cookie. */
 export function createSession(netId: string): string {
-  const token = randomBytes(24).toString("hex");
-  sessions.set(token, { netId: assertNetId(netId) });
-  return token;
+  const id = assertNetId(netId);
+  return `${id}.${signNetId(id)}`;
 }
 
-export function endSession(token: string | null | undefined): void {
-  if (token) sessions.delete(token);
+export function endSession(_token: string | null | undefined): void {
+  // Stateless session. The logout route clears the cookie.
 }
 
 export function netIdFromToken(token: string | null | undefined): string | null {
   if (!token) return null;
-  return sessions.get(token)?.netId ?? null;
+  const dot = token.lastIndexOf(".");
+  if (dot <= 0) return null;
+  const id = token.slice(0, dot);
+  const sig = token.slice(dot + 1);
+  let netId: string;
+  try {
+    netId = assertNetId(id);
+  } catch {
+    return null;
+  }
+  const expected = signNetId(netId);
+  const actual = Buffer.from(sig);
+  const wanted = Buffer.from(expected);
+  if (actual.length !== wanted.length || !timingSafeEqual(actual, wanted)) return null;
+  return netId;
 }
 
 /**

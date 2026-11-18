@@ -1,9 +1,9 @@
 import * as z from "zod/v4";
 
-import { formatYalies, lookupYalies } from "../../integrations/yalies.js";
-import { textResult, type Tool } from "../../core/types.js";
-import { currentSeasonCode, formatSection, searchCourses } from "./catalog.js";
-import { listSavedCourses, removeCourse, saveCourse } from "./worksheet.js";
+import { formatYalies, lookupYalies } from "../../integrations/yalies";
+import { textResult, type Tool } from "../../core/types";
+import { currentSeasonCode, formatSection, searchCourses } from "./catalog";
+import { listSavedCourses, removeCourse, saveCourse } from "./worksheet";
 
 function failure(err: unknown): ReturnType<typeof textResult> {
   return textResult(err instanceof Error ? err.message : String(err), true);

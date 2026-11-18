@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createSession, parseNetIdBody, sameOrigin, SESSION_COOKIE, sessionCookieOptions } from "../../../../src/core/auth.js";
+import { createSession, parseNetIdBody, sameOrigin, SESSION_COOKIE, sessionCookieOptions } from "../../../../src/core/auth";
 
 export async function POST(request: Request) {
   const raw = await request.text();

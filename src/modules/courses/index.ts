@@ -1,8 +1,8 @@
-import type { FeatureModule } from "../../core/types.js";
+import type { FeatureModule } from "../../core/types";
 
-import { currentSeasonCode, formatMeetings, newYorkWeekdayBit, seasonLabel } from "./catalog.js";
-import { courseTools } from "./tools.js";
-import { listSavedCourses, todaySections } from "./worksheet.js";
+import { currentSeasonCode, formatMeetings, newYorkWeekdayBit, seasonLabel } from "./catalog";
+import { courseTools } from "./tools";
+import { listSavedCourses, todaySections } from "./worksheet";
 
 /** Aiden owns this module (courses and Yalies). */
 export const coursesModule: FeatureModule = {

@@ -18,8 +18,6 @@ copy .env.example .env
 npm run dev
 ```
 
-`npm run dev` uses webpack. Turbopack does not resolve this repo's `.js` import specifiers to the TypeScript sources.
-
 Open http://127.0.0.1:3000 and sign in with a NetID. `CAS_MODE=mock` is a localhost form. `CAS_MODE=yale` redirects through Yale CAS and returns to `/auth/callback`.
 
 ```powershell

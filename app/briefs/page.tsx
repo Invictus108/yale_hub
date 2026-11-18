@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { currentNetId } from "../lib/session.js";
-import { morningBriefFor } from "../../src/core/mcp-server.js";
-import { SendButton } from "./send-button.js";
+import { currentNetId } from "../lib/session";
+import { morningBriefFor } from "../../src/core/mcp-server";
+import { SendButton } from "./send-button";
 
 /** Aiden owns this page and the email sender. */
 export default async function BriefsPage() {

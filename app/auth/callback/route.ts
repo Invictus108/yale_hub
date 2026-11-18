@@ -7,7 +7,7 @@ import {
   SESSION_COOKIE,
   sessionCookieOptions,
   validateYaleTicket,
-} from "../../../src/core/auth.js";
+} from "../../../src/core/auth";
 
 /** Yale CAS returns the browser here. Service URL is http://host/auth/callback. */
 export async function GET(request: Request) {
