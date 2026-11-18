@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { currentNetId } from "../lib/session";
 import { Icon, type IconName } from "../components/icon";
 import { featureModules } from "../../src/core/mcp-server";
@@ -13,7 +14,8 @@ const FEATURES: Record<string, { icon: IconName; text: string; action: string; t
   briefs: { icon: "briefs", text: "Your campus day, thoughtfully gathered into one morning read.", action: "Read your brief", tone: "blue" },
 };
 
-export default async function OverviewPage() {
+export default async function OverviewPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  if ((await searchParams).view !== "dashboard") redirect("/chat");
   const netId = await currentNetId();
   const [profile, episodes] = netId ? await Promise.all([loadProfile(netId), recentEpisodes(netId, 3)]) : [null, []];
   const date = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "long", month: "long", day: "numeric" }).format(new Date());

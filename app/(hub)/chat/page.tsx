@@ -1,21 +1,21 @@
-import { SignInGate } from "../../components/gate";
+import { redirect } from "next/navigation";
 import { currentNetId } from "../../lib/session";
+import { loadOrCreateProfile } from "../../../src/core/memory/profile";
+import { ChatError, listChats, readChat } from "../../../src/core/memory/chat-store";
+import { readCampus } from "../../../src/core/memory/campus";
 import { ChatForm } from "./chat-form";
+import "./chat.css";
 
-export default async function ChatPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+export default async function ChatPage({ searchParams }: { searchParams: Promise<{ q?: string; id?: string }> }) {
   const netId = await currentNetId();
+  if (!netId) redirect("/login");
   const query = await searchParams;
-  if (!netId) {
-    return <SignInGate title="Chat" detail="Sign in so the hub can load your profile before it answers." />;
+  const [profile, chats, snapshot] = await Promise.all([loadOrCreateProfile(netId), listChats(netId), readCampus(netId)]);
+  let chat = null;
+  let error = "";
+  if (query.id) {
+    try { chat = await readChat(netId, query.id); }
+    catch (err) { if (err instanceof ChatError) error = err.message; else throw err; }
   }
-  return (
-    <>
-      <header className="page-head">
-        <p className="eyebrow">Your assistant</p>
-        <h1>A good place to start.</h1>
-        <p className="lede">A hand with your day. An answer to your questions. A little less to keep in your head.</p>
-      </header>
-      <ChatForm key={query.q || "new"} initialQuestion={typeof query.q === "string" ? query.q.slice(0, 2000) : ""} />
-    </>
-  );
+  return <ChatForm key={netId} netId={netId} name={profile.displayName} initialChats={chats} initialChat={chat} initialSnapshot={snapshot} initialError={error} initialQuestion={typeof query.q === "string" ? query.q.slice(0, 2000) : ""} />;
 }

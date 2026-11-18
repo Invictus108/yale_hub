@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { refreshCampus } from "../../src/core/memory/campus";
 
 import { createSession, sameOrigin, SESSION_COOKIE, sessionCookieOptions, validateTicket } from "../../src/core/auth";
 
@@ -10,8 +11,9 @@ export async function GET(request: Request) {
   }
   try {
     const netId = await validateTicket(ticket);
-    const response = NextResponse.redirect(sameOrigin(request, "/"));
+    const response = NextResponse.redirect(sameOrigin(request, "/chat"));
     response.cookies.set(SESSION_COOKIE, createSession(netId), sessionCookieOptions);
+    after(async () => { await refreshCampus(netId, true); });
     return response;
   } catch (err) {
     const message = err instanceof Error ? err.message : "CAS sign-in failed.";
