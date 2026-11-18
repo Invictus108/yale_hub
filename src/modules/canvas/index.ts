@@ -3,10 +3,7 @@ import type { FeatureModule } from "../../core/types";
 
 import { canvasTools } from "./tools";
 
-/**
- * Canvas reads only. Not in featureModules.
- * The other owner registers it with one import and one array entry in src/core/mcp-server.ts.
- */
+/** Canvas reads only. Registered in featureModules. */
 export const canvasModule: FeatureModule = {
   id: "canvas",
   name: "Canvas",

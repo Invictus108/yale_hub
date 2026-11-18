@@ -7,8 +7,10 @@ import { retrieveYaleKnowledge } from "./memory/retrieval";
 import { getAgentClient } from "./mcp-server";
 import type { Episode, Profile, RetrievedChunk } from "./types";
 
-const MODEL = "grok-4.7";
+const XAI_MODEL = "grok-4.7";
 const RESPONSES_URL = "https://api.x.ai/v1/responses";
+const GEMINI_MODEL = process.env.GEMINI_MODEL?.trim() || "gemini-4-hydrogen";
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/interactions";
 const MAX_TOOL_ROUNDS = 5;
 
 export interface AgentTurn {
@@ -16,7 +18,7 @@ export interface AgentTurn {
   retrieved: Array<{ score: number; excerpt: string }>;
   retrievalWarning?: string;
   toolsUsed: string[];
-  /** False when XAI_API_KEY is unset and the turn returns retrieved context only. */
+  /** False when no model key is set and the turn returns retrieved context only. */
   model: boolean;
 }
 
@@ -53,11 +55,16 @@ export async function answerQuestion(netId: string, message: string): Promise<Ag
   let text: string;
   try {
     text = await runWithToolContext({ netId, profile }, async () => {
-      if (!process.env.XAI_API_KEY?.trim()) {
+      const geminiKey = process.env.GEMINI_API_KEY?.trim();
+      const xaiKey = process.env.XAI_API_KEY?.trim();
+      if (!geminiKey && !xaiKey) {
         return fallbackText(message, profile, retrieval.chunks, episodes, retrieval.warning);
       }
       usedModel = true;
       const client = await getAgentClient();
+      if (geminiKey) {
+        return runGemini(client, message, profile, retrieval.chunks, episodes, retrieval.warning, toolsUsed);
+      }
       return runModel(client, message, profile, retrieval.chunks, episodes, retrieval.warning, toolsUsed);
     });
   } catch (err) {
@@ -95,7 +102,7 @@ function fallbackText(
     ? episodes.map((episode) => `- ${episode.at} ${episode.summary}`).join("\n")
     : "No episodes yet.";
   return [
-    "Profile and Yale chunks were loaded before this reply. Set XAI_API_KEY to have the model answer and call tools.",
+    "Profile and Yale chunks were loaded before this reply. Set GEMINI_API_KEY to have the model answer and call tools.",
     warning ? `Retrieval warning: ${warning}` : "",
     "",
     `Student: ${profile.displayName} (${profile.netId})`,
@@ -111,6 +118,122 @@ function fallbackText(
   ]
     .filter((line) => line !== "")
     .join("\n");
+}
+
+interface GeminiStep {
+  type?: string;
+  id?: string;
+  name?: string;
+  arguments?: unknown;
+  content?: Array<{ type?: string; text?: string }>;
+  signature?: string;
+}
+
+interface GeminiInteraction {
+  steps?: GeminiStep[];
+  error?: { message?: string };
+}
+
+async function runGemini(
+  client: Client,
+  message: string,
+  profile: Profile,
+  chunks: RetrievedChunk[],
+  episodes: Episode[],
+  warning: string | undefined,
+  toolsUsed: string[],
+): Promise<string> {
+  const listed = (await client.listTools()) as { tools?: ListedTool[] };
+  const tools = (listed.tools ?? []).map((tool) => ({
+    type: "function" as const,
+    name: tool.name,
+    description: tool.description ?? "",
+    parameters: geminiSchema(tool.inputSchema),
+  }));
+  const history: unknown[] = [
+    { type: "user_input", content: [{ type: "text", text: message }] },
+  ];
+  const system = instructionsFor(profile, chunks, episodes, warning);
+
+  let interaction = await createInteraction({ system_instruction: system, input: history, tools });
+  for (let round = 0; round < MAX_TOOL_ROUNDS; round += 1) {
+    const steps = interaction.steps ?? [];
+    const calls = steps.filter((step) => step.type === "function_call" && step.name && step.id);
+    const text = geminiText(steps);
+    if (calls.length === 0) return text || "I don't have a reply for that yet.";
+    history.push(...steps);
+    for (const call of calls) {
+      toolsUsed.push(call.name ?? "");
+      const args = typeof call.arguments === "string" ? call.arguments : JSON.stringify(call.arguments ?? {});
+      history.push({
+        type: "function_result",
+        name: call.name,
+        call_id: call.id,
+        result: [{ type: "text", text: await invokeTool(client, call.name ?? "", args) }],
+      });
+    }
+    interaction = await createInteraction({ system_instruction: system, input: history, tools });
+  }
+  return geminiText(interaction.steps ?? []) || "I stopped after several tool calls without a final answer.";
+}
+
+function geminiText(steps: GeminiStep[]): string {
+  const parts: string[] = [];
+  for (const step of steps) {
+    if (step.type !== "model_output" || !Array.isArray(step.content)) continue;
+    for (const block of step.content) {
+      if (typeof block.text === "string" && block.text.trim()) parts.push(block.text.trim());
+    }
+  }
+  return parts.join("\n").trim();
+}
+
+async function createInteraction(body: Record<string, unknown>): Promise<GeminiInteraction> {
+  const response = await fetch(GEMINI_URL, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-goog-api-key": process.env.GEMINI_API_KEY ?? "",
+    },
+    body: JSON.stringify({ model: GEMINI_MODEL, store: false, ...body }),
+  });
+  const raw = await response.text();
+  const parsed = JSON.parse(raw) as GeminiInteraction;
+  if (!response.ok) {
+    throw new Error(`Gemini ${response.status}: ${(parsed.error?.message ?? raw).slice(0, 500)}`);
+  }
+  return parsed;
+}
+
+/** Gemini function parameters are a subset of JSON Schema. Drop the rest. */
+function geminiSchema(schema: unknown): Record<string, unknown> {
+  if (!schema || typeof schema !== "object" || Array.isArray(schema)) {
+    return { type: "object", properties: {} };
+  }
+  const input = schema as Record<string, unknown>;
+  const union = (Array.isArray(input.anyOf) ? input.anyOf : Array.isArray(input.oneOf) ? input.oneOf : null) as
+    | unknown[]
+    | null;
+  if (union) {
+    const chosen = union.find((option) => option && typeof option === "object" && (option as { type?: string }).type !== "null");
+    return geminiSchema({ ...(chosen && typeof chosen === "object" ? chosen : { type: "string" }), description: input.description });
+  }
+  const out: Record<string, unknown> = {};
+  const rawType = Array.isArray(input.type) ? input.type.find((item) => item !== "null") : input.type;
+  if (typeof rawType === "string") out.type = rawType;
+  if (typeof input.description === "string") out.description = input.description;
+  if (Array.isArray(input.enum)) out.enum = input.enum.filter((item) => item != null);
+  if (input.properties && typeof input.properties === "object" && !Array.isArray(input.properties)) {
+    const properties: Record<string, unknown> = {};
+    for (const [name, prop] of Object.entries(input.properties as Record<string, unknown>)) {
+      properties[name] = geminiSchema(prop);
+    }
+    out.properties = properties;
+  }
+  if (input.items) out.items = geminiSchema(input.items);
+  if (Array.isArray(input.required)) out.required = input.required;
+  if (!out.type) out.type = out.properties ? "object" : "string";
+  return out;
 }
 
 async function runModel(
@@ -201,7 +324,7 @@ async function createResponse(body: Record<string, unknown>): Promise<ResponsesB
       "content-type": "application/json",
       authorization: `Bearer ${process.env.XAI_API_KEY}`,
     },
-    body: JSON.stringify({ model: MODEL, ...body }),
+    body: JSON.stringify({ model: XAI_MODEL, ...body }),
   });
   const raw = await response.text();
   if (!response.ok) {

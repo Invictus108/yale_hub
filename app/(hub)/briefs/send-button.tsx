@@ -13,9 +13,9 @@ export function SendButton() {
   }
 
   return (
-    <>
+    <div className="row">
       <button type="button" onClick={send}>Send test email</button>
-      {detail ? <p>{detail}</p> : null}
-    </>
+      {detail ? <p className="status" role="status">{detail}</p> : null}
+    </div>
   );
 }

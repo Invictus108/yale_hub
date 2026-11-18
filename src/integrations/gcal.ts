@@ -160,7 +160,7 @@ function googleConfigured(): boolean {
 }
 
 function redirectUri(): string {
-  return process.env.GOOGLE_REDIRECT_URI?.trim() || "http://127.0.0.1:3000/api/calendar/google/callback";
+  return process.env.GOOGLE_REDIRECT_URI?.trim() || "http://localhost:5000/api/calendar/google/callback";
 }
 
 function clientId(): string {

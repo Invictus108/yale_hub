@@ -17,7 +17,7 @@ function failure(err: unknown): ReturnType<typeof textResult> {
   return textResult(err instanceof Error ? err.message : String(err), true);
 }
 
-/** Reads Canvas only. Registration in mcp-server.ts is left to the other owner. */
+/** Reads Canvas only. */
 export const canvasTools: Tool[] = [
   {
     name: "list_canvas_courses",

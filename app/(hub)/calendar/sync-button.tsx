@@ -13,9 +13,9 @@ export function SyncButton() {
   }
 
   return (
-    <>
+    <div className="row">
       <button type="button" onClick={run}>Run auto-update</button>
-      {detail ? <p>{detail}</p> : null}
-    </>
+      {detail ? <p className="status" role="status">{detail}</p> : null}
+    </div>
   );
 }

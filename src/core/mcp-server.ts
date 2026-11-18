@@ -7,6 +7,7 @@ import { loadOrCreateProfile } from "./memory/profile";
 import { memoryTools } from "./memory/tools";
 import { briefsModule, renderMorningBrief } from "../modules/briefs/index";
 import { calendarModule } from "../modules/calendar/index";
+import { canvasModule } from "../modules/canvas/index";
 import { coursesModule } from "../modules/courses/index";
 import { diningModule } from "../modules/dining/index";
 import { textResult, type BriefSectionOutput, type FeatureModule, type Tool, type ToolContext } from "./types";
@@ -19,6 +20,7 @@ export const featureModules: FeatureModule[] = [
   calendarModule,
   diningModule,
   coursesModule,
+  canvasModule,
   briefsModule,
 ];
 

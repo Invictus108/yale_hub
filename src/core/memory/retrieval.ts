@@ -9,7 +9,7 @@ export interface RetrievalResult {
 
 /**
  * Retrieval entry the agent calls before every answer.
- * Wraps the existing Yale text-chunk vector database.
+ * Hybrid search: BM25 and the Yale BGE index, fused, then reranked.
  */
 export async function retrieveYaleKnowledge(query: string, k = 5): Promise<RetrievalResult> {
   try {

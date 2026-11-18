@@ -8,7 +8,7 @@ const scriptPath = path.join(path.dirname(fileURLToPath(import.meta.url)), "vect
 
 /**
  * Thin wrapper around the existing Yale chunk index.
- * One long-lived Python process loads BGE once, then answers JSON lines.
+ * One long-lived Python process loads BGE and the reranker once, then answers JSON lines.
  */
 let child: ChildProcessWithoutNullStreams | null = null;
 let stdoutBuffer = "";
@@ -101,8 +101,8 @@ function requestLine(query: string, k: number): Promise<string> {
       if (pending === finish) pending = null;
       proc.kill();
       child = null;
-      reject(new Error("vector bridge timed out (the first call loads BGE and can take a few minutes)"));
-    }, 300_000);
+      reject(new Error("vector bridge timed out (the first call loads BGE and the reranker and can take several minutes)"));
+    }, 600_000);
 
     pending = finish;
     proc.stdin.write(JSON.stringify({ query, k }) + "\n", (err) => {

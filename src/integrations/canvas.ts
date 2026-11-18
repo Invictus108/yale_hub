@@ -1,7 +1,7 @@
 /**
  * Read-only Yale Canvas client.
  * Token stays in CANVAS_API_TOKEN. Do not put it on the student profile.
- * This file is not registered anywhere. Another owner adds the module to featureModules.
+ * The Canvas module registers the tools that call this client.
  */
 
 const TIME_ZONE = "America/New_York";
