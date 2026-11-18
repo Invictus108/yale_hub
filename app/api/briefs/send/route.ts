@@ -14,6 +14,7 @@ export async function POST() {
     to: profile.email ?? `${netId}@yale.edu`,
     subject: "YaleHub morning brief",
     text,
+    netId,
   });
   return NextResponse.json(result);
 }

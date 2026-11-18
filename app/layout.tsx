@@ -16,6 +16,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <Link href="/profile">Profile</Link>
             <Link href="/chat">Chat</Link>
             <Link href="/calendar">Calendar</Link>
+            <Link href="/dining">Dining</Link>
+            <Link href="/courses">Courses</Link>
             <Link href="/briefs">Briefs</Link>
             <span className="who">
               {netId ? (

@@ -14,6 +14,8 @@ export default async function OverviewPage() {
         <li><Link href="/profile">Profile</Link> — memory owner</li>
         <li><Link href="/chat">Chat</Link> — agent retrieves Yale chunks, then calls MCP tools</li>
         <li><Link href="/calendar">Calendar</Link> — Jack</li>
+        <li><Link href="/dining">Dining</Link> — Aiden</li>
+        <li><Link href="/courses">Courses</Link> — Aiden</li>
         <li><Link href="/briefs">Morning brief</Link> — Aiden</li>
       </ul>
       <h2>Registered modules</h2>

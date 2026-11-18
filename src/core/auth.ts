@@ -10,7 +10,9 @@ interface Session {
   netId: string;
 }
 
-const sessions = new Map<string, Session>();
+const globalSessions = globalThis as typeof globalThis & { __yalehubSessions?: Map<string, Session> };
+const sessions = globalSessions.__yalehubSessions ?? new Map<string, Session>();
+globalSessions.__yalehubSessions = sessions;
 
 export function casMode(): "mock" | "yale" {
   return process.env.CAS_MODE?.trim().toLowerCase() === "yale" ? "yale" : "mock";
@@ -81,6 +83,14 @@ export async function validateYaleTicket(ticket: string, service: string): Promi
   const user = /<(?:cas:)?user>([^<]+)<\/(?:cas:)?user>/i.exec(xml);
   if (!user?.[1]) throw new Error("Yale CAS response did not include a NetID.");
   return assertNetId(user[1]);
+}
+
+/** Keep redirects on the host the browser actually opened. Next otherwise rewrites 127.0.0.1 to localhost and drops the session cookie. */
+export function sameOrigin(request: Request, path: string): URL {
+  const host = request.headers.get("host");
+  const proto = request.headers.get("x-forwarded-proto") ?? "http";
+  const base = host ? `${proto}://${host}` : request.url;
+  return new URL(path, base);
 }
 
 export const sessionCookieOptions = {

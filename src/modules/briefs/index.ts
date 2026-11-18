@@ -1,5 +1,6 @@
 import type { BriefSectionOutput, FeatureModule } from "../../core/types.js";
 
+import { describeBriefDelivery } from "./email.js";
 import { briefTools } from "./tools.js";
 
 /**
@@ -26,6 +27,9 @@ export const briefsModule: FeatureModule = {
   morningBriefSection: {
     id: "briefs",
     title: "Inbox",
-    build: async () => "TODO(aiden): overnight mail and digest items.",
+    build: async (ctx) => {
+      if (!ctx.netId) return "Sign in to see brief delivery.";
+      return describeBriefDelivery(ctx.netId, ctx.profile?.email ?? null);
+    },
   },
 };

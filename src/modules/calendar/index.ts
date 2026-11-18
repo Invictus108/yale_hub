@@ -1,3 +1,4 @@
+import { dayRange, formatEventLine, listEvents, newYorkToday } from "../../integrations/gcal.js";
 import type { FeatureModule } from "../../core/types.js";
 
 import { calendarTools } from "./tools.js";
@@ -12,8 +13,15 @@ export const calendarModule: FeatureModule = {
     id: "calendar",
     title: "Calendar",
     build: async (ctx) => {
-      const name = ctx.profile?.displayName ?? "student";
-      return `TODO(jack): today's events for ${name}.`;
+      if (!ctx.netId) return "Sign in to see today's events.";
+      try {
+        const events = await listEvents(ctx.netId, dayRange(newYorkToday()));
+        const name = ctx.profile?.displayName ?? ctx.netId;
+        if (!events.length) return `Nothing on ${name}'s calendar today.`;
+        return events.map(formatEventLine).join("\n");
+      } catch (err) {
+        return err instanceof Error ? err.message : String(err);
+      }
     },
   },
 };

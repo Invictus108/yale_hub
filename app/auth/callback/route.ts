@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import {
   createSession,
+  sameOrigin,
   serviceUrlFor,
   SESSION_COOKIE,
   sessionCookieOptions,
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
   }
   const host = request.headers.get("host") ?? "127.0.0.1:3000";
   const netId = await validateYaleTicket(ticket, serviceUrlFor(host));
-  const response = NextResponse.redirect(new URL("/", request.url));
+  const response = NextResponse.redirect(sameOrigin(request, "/"));
   response.cookies.set(SESSION_COOKIE, createSession(netId), sessionCookieOptions);
   return response;
 }
