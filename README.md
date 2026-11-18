@@ -1,5 +1,7 @@
 # YaleHub
 
+**We did not have an API key, so we could not demo the chat.** The rest of the hub is in the demo video: [youtube.com/watch?v=DVc3_1FWikM](https://www.youtube.com/watch?v=DVc3_1FWikM)
+
 YaleHub is a personal campus workspace for one Yale student. Sign in with a NetID and the same assistant can answer from a Yale text archive, remember who you are, and act on your calendar, dining hall, course worksheet, Canvas, and morning brief. The dashboard is a Next.js app. Every feature is a module that registers tools on one MCP server, so chat and the pages share one set of capabilities.
 
 Built in a short hackathon by three people working in parallel. Who owns which folder is in [AGENTS.md](AGENTS.md).
